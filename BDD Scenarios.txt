@@ -1,0 +1,78 @@
+GIVEN: Customer with more than 8 tokens is logged in
+WHEN: He wants to see the reward history in the Freebies Vault Section
+THEN: The last 8 customers tokens are displayed
+AND: Tokens are in chronological order
+AND: Each token displays 1 characteristic thumbnail
+
+GIVEN: Customer with one token obtained is logged in
+WHEN: He wants new token
+THEN: "Your history" section is displayed
+AND: "Your history" section contains 1 token
+
+GIVEN: Customer with 8 tokens obtained is logged in
+WHEN: He wants new token
+THEN: "Your history" section is displayed
+AND: "Your history" section contains 8 tokens
+AND: Tokens are in chronological order
+AND: Each token displays 1 characteristic thumbnail
+
+GIVEN: Customer with more than 8 tokens obtained is logged in
+WHEN: He wants new token
+THEN: "Your history" section is displayed
+AND: "Your history" section contains the last 8 tokens obtained
+AND: Tokens are in chronological order
+
+GIVEN: Customer with no tokens obtained is logged in
+WHEN: He wants new token
+AND: "Your history" section is displayed 
+AND: "Your history" section is empty
+AND: He wants another token
+THEN: "Your history" section is displayed with the last obtained token
+
+GIVEN: Customer with more than 8 tokens obtained is logged in
+WHEN: He wants new token
+AND: "Your history" section is displayed with the last 8 tokens obtained
+THEN: Hovering a thumbnail with the mouse shows games name for which token has been obtained
+
+
+BACK-END
+GIVEN: I have UserName "QATEST" with 0 tokens obtained
+WHEN: I send request to "/igc/betspin/rewards/history" with the "QATEST" param
+THEN: Empty JSON array is returned
+
+GIVEN: I have UserName "QATEST" with 0 tokens obtained
+WHEN: I obtain new token of type "X"
+AND: I send request to "/igc/betspin/rewards/history" with the "QATEST" param
+THEN: Single array for the token of type "X" is returned
+AND: Sub-array for the "X1" token is returned
+AND: Sub-array for "X1" token contains the following info: game-slug, date claimed, info, reason, expiry date
+AND: Sub-array info for "X1" token is correct
+
+GIVEN: I have UserName "QATEST" with 1 token of type "X" obtained
+WHEN: I obtain new token of type "X"
+AND: I send request to "/igc/betspin/rewards/history" with the "QATEST" param
+THEN: Single array for the token of type "X" is returned
+AND: Sub-arrays for "X1" and "X2" tokens are returned in chronological order
+AND: Sub-arrays for "X1" and "X2" tokens contain the following info: game-slug, date claimed, info, reason, expiry date
+
+GIVEN: I have UserName "QATEST" with two tokens of type "X"
+WHEN: I obtain new token of type "Y"
+AND: I send request to "/igc/betspin/rewards/history" with the "QATEST" param
+THEN: The response contains one array for token type "X" and one for token type "Y"
+AND: Tokens "X" and "Y" are returned in chronological order
+AND: Array for token type "X" contains two sub-arrays for tokens "X1" and "X2" ordered in chronological order
+AND: Array for token type "Y" contains one sub-array for token "Y1"
+AND: Sub-arrays for tokens "X1","X2" and "Y1" contain the following info: game-slug, date claimed, info, reason, expiry date
+
+
+
+
+
+
+
+
+
+
+
+
+
